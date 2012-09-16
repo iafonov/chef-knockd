@@ -28,8 +28,39 @@ This example attributes set would add rule that will open SSH for 10 seconds and
 
 ## Usage
 
-Add custom rules and enjoy. SSH rule is included by default.
+Add custom rules and enjoy. SSH port rule is included by default.
 
+## Automation of port-knocking
+
+Add this to Rakefile in your chef repository:
+
+```ruby
+require 'socket'
+
+desc 'ssh to a node specified by name'
+task :ssh, :node_name do |t, args|
+  node = search(:node, args[:node_name]).first
+  knock_node(node)
+  exec("ssh #{node.fqdn}")
+end
+
+def knock_nodes(node)
+  knock_ports = node['knockd']['rules']['ssh']['sequence'] rescue []
+  knock_ports.each{ |port| knock(node.fqdn, port) }
+end
+
+def knock(host, port)
+  s = Socket.new Socket::Constants::AF_INET, Socket::Constants::SOCK_STREAM, 0
+  sa = Socket.pack_sockaddr_in port, host
+  s.connect_nonblock sa
+end
+```
+
+Run this task to knock node and ssh to it:
+
+```bash
+$ rake ssh[staging]
+```
 ## Important note
 
 This cookbook will not disable port automatically. You have to shoot your leg yourself:
