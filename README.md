@@ -50,9 +50,9 @@ def knock_nodes(node)
 end
 
 def knock(host, port)
-  s = Socket.new Socket::Constants::AF_INET, Socket::Constants::SOCK_STREAM, 0
-  sa = Socket.pack_sockaddr_in port, host
-  s.connect_nonblock sa
+  s = Socket.new(Socket::Constants::AF_INET, Socket::Constants::SOCK_STREAM, 0)
+  sa = Socket.pack_sockaddr_in(port, host)
+  s.connect_nonblock(sa)
 end
 ```
 
