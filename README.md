@@ -67,6 +67,8 @@ $ rake ssh[staging]
 
 This cookbook will not disable port automatically. You'll have to shoot your leg yourself:
 
-`$ ufw delete allow 22` (think twice and test everything before running it)
+```bash
+$ ufw delete allow 22 # (think twice and test everything before running it)
+```
 
 © 2012 [Igor Afonov](https://iafonov.github.com) MIT License
