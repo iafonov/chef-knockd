@@ -2,6 +2,8 @@
 
 Cookbook manages [knockd](https://help.ubuntu.com/community/PortKnocking) port-knock server.
 
+Port knocking is a simple method to grant remote access without leaving a port constantly open. This preserves your server from port scanning and script kiddie attacks.
+
 ## Requirements
 
 ### Platform
@@ -10,7 +12,7 @@ Cookbook manages [knockd](https://help.ubuntu.com/community/PortKnocking) port-k
 
 ## Dependencies
 
-To utilize port knocking, the server must use a firewall. See [ufw](https://github.com/opscode-cookbooks/ufw) and [firewall](https://github.com/opscode-cookbooks/firewall) cookbooks.
+To utilize port knocking, the server must have a firewall. See [ufw](https://github.com/opscode-cookbooks/ufw) and [firewall](https://github.com/opscode-cookbooks/firewall) cookbooks for more information about managing and running firewall with chef.
 
 ## Attributes
 
