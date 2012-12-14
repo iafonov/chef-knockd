@@ -6,15 +6,20 @@ service 'knockd' do
 end
 
 node['knockd']['rules'].each do |name, rule|
-  sequence_size = node['knockd']['rules'][name]['sequence_size']
-  node.set_unless['knockd']['rules'][name]['sequence'] = generate_sequence(sequence_size)
+  if node['knockd']['rules'][name]['sequence']['type'] == 'random'
+    sequence_size = node['knockd']['rules'][name]['sequence']['ports_sequence']
+    node.set_unless['knockd']['rules'][name]['sequence'] = generate_sequence(sequence_size).join(',')
+  else
+    node.set_unless['knockd']['rules'][name]['sequence'] = node['knockd']['rules'][name]['sequence']['ports_sequence']
+  end
 end
 
 template '/etc/knockd.conf' do
-  variables :rules => node['knockd']['rules']
+  variables :knockd => node['knockd']
   notifies :restart, "service[knockd]"
 end
 
-cookbook_file '/etc/default/knockd' do
+template '/etc/default/knockd' do
+  variables :option => node['knockd']['options']
   notifies :restart, "service[knockd]"
 end
